@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ding.books.mapper.ClassMapper">
+
+
+    <select id="selectByCondition" resultType="com.ding.books.model.dto.ClassBook">
+
+
+        select * from classinfo
+        <where> 1=1
+            <if test="classname != null and classname.length > 0">
+                and classname like concat('%',#{classname},'%')
+            </if>
+
+        </where>
+    </select>
+</mapper>

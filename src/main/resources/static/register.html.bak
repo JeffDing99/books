@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册 </title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background: url(https://api.lyiqk.cn/acg) no-repeat;
+        background-size: 100%;
+    }
+
+    .user-load {
+        background-color: rgba(16, 221, 235, 0.295);
+        width: 800px;
+        height: 500px;
+        position: absolute;
+        top: 100px;
+        left: 330px;
+        border: #0082ec3b 3px solid;
+        border-radius: 70px;
+        box-shadow: 0 0 100px rgba(4, 238, 226, 0.5);
+        overflow: hidden;
+        padding: 50px 280px 0;
+    }
+
+    .user-load h1 {
+        color: rgba(255, 255, 255, 0.623);
+        text-align: center;
+        display: block;
+        border: #0483eb46 3px solid;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(4, 238, 226, 1);
+        margin-left: 55px;
+        margin-bottom: 30px;
+    }
+
+
+    .user-load li {
+        list-style: none;
+        margin-bottom: 10px;
+        color: aqua;
+        font-weight: 600;
+    }
+
+    .user-load li input {
+        outline: none;
+        padding-left: 10px;
+        width: 150px;
+        height: 22px;
+        border-radius: 7px;
+        border: 1px solid transparent;
+        box-shadow: 0 2px 20px rgb(7, 210, 224);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .user-load li input:focus,
+    .user-load ul .zhuce:focus {
+
+        box-shadow: 0px 5px 20px rgb(224, 7, 7);
+    }
+
+    .user-load ul .zhuce:focus {
+        background-color: rgb(7, 210, 224, .7);
+    }
+
+    .user-load ul div {
+        margin-left: 24px;
+        margin-top: 25px;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .user-load ul .zhuce {
+        background-color: rgb(7, 210, 224, .7);
+        border: 1px solid transparent;
+        outline: none;
+        width: 200px;
+        margin-left: 20px;
+        height: 30px;
+        box-shadow: 0 2px 20px rgb(7, 210, 224);
+        border-radius: 10px;
+        color: #fff;
+        font-weight: bolder;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.5s ease-in-out;
+        margin-top: 10px;
+
+    }
+
+    .user-load ul .loading a {
+        color: rgb(224, 50, 50);
+
+    }
+</style>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="./plugins/elementui/index.css">
+<link rel="stylesheet" href="./plugins/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" type="text/css" href="./css/verify.css">
+<body>
+<div id="app">
+    <div class="wrap">
+        <div >
+            <div style="width: 100%; height: 100vh; overflow: hidden">
+                <div style="width: 400px; margin: 100px auto">
+                    <div style="font-size: 30px; text-align: center; padding: 30px 0">欢迎注册</div>
+                    <el-form ref="form" :model="form" size="normal" :rules="rules">
+                        <el-form-item prop="username">
+                            <el-input prefix-icon="el-icon-edit"  placeholder="请输入用户名" v-model="form.username"></el-input>
+                        </el-form-item>
+
+                        <el-form-item prop="phone">
+                            <el-input prefix-icon="el-icon-edit"  placeholder="请输入手机号" v-model="form.phone"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="sex" >
+                            <el-col :span="11">
+                                <el-select v-model="form.sex" placeholder="请选择性别" >
+                                    <el-option label="未知" value="未知"></el-option>
+                                    <el-option label="男" value="男"></el-option>
+                                    <el-option label="女" value="女"></el-option>
+                                </el-select>
+                            </el-col>
+                            <el-col :span="11">
+                                <el-input prefix-icon="el-icon-edit"  placeholder="请输入城市" v-model="form.city">
+
+                                </el-input>
+                            </el-col>
+
+                        </el-form-item>
+                        <!--<el-form-item prop="city" :inline="true">
+                            <el-input prefix-icon="el-icon-edit"  placeholder="请输入城市" v-model="form.city">
+
+                            </el-input>
+                        </el-form-item>-->
+                        <el-form-item prop="password">
+                            <el-input prefix-icon="el-icon-edit" placeholder="请输入密码" v-model="form.password" type="password" ></el-input>
+                        </el-form-item>
+                        <el-form-item prop="confirm">
+                            <el-input prefix-icon="el-icon-edit"  placeholder="请确认密码"v-model="form.confirm" type="password"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button style="width: 100%" type="primary" @click="register">注册</el-button>
+                        </el-form-item>
+                        <el-form-item><el-button type="text" @click="judgeURL">&lt;&lt;返回登录 </el-button></el-form-item>
+                    </el-form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a target="_blank" rel="noopener" href="https://github.com/JeffDing99" class="github-corner"
+   aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250"
+                                           style="fill:#70B7FD; color:#fff; position: absolute; top: 0; border: 0; right: 0; z-index: 1031;"
+                                           aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+    <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+</body>
+<!-- 引入组件库 -->
+<script src="./js/vue.js"></script>
+<script src="./plugins/elementui/index.js"></script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script src="./js/axios-0.18.0.js"></script>
+
+<script>
+    var vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+
+                form: {},
+                rules: {
+                    username: [
+                        {required: true, message: '用户名不可为空', trigger: 'blur'},
+                    ],
+                    password: [
+                        {required: true, message: '密码不可为空', trigger: 'blur'},
+                    ],
+                    confirm: [
+                        {required: true, message: '请确认密码', trigger: 'blur'},
+                    ],
+                    phone:[
+                        { required: true, message: '手机号不可为空', trigger: 'blur' },
+                        { min: 11, max: 11, message: '长度为11个', trigger: 'blur' }
+                    ]
+                },
+
+
+            }
+        },
+        mounted() {
+
+
+        },
+        methods: {
+            register() {
+
+                if (this.form.password !== this.form.confirm) {
+                    this.$message({
+                        type: "error",
+                        message: '2次密码输入不一致！'
+                    })
+                    return
+                }
+
+                this.$refs['form'].validate((valid) => {
+                    if (valid) {
+                        axios.post("/user/register", this.form).then(res => {
+                            if (res.data.flag) {
+                                //弹出提示信息
+                                this.$message({
+                                    type:'success',
+                                    message:res.data.message
+
+                                });
+                                this.$confirm('是否跳转到登录页面?', '注册成功', {
+                                    confirmButtonText: '确定',
+                                    cancelButtonText: '取消',
+                                    type: 'warning'
+                                }).then(() => {
+                                    window.location.href="./index.html";
+                                }).catch(() => {
+                                    this.$message({
+                                        type: 'info',
+                                        message: '已取消跳转'
+                                    });
+                                }); //登录成功之后进行页面的跳转，跳转到主页
+                            } else {
+                                this.$message({
+                                    type: "error",
+                                    message: res.data.message
+                                })
+                            }
+                        })
+                    }
+                })
+            },
+            judgeURL () {
+                window.location.href="./index.html";
+            },
+
+        }
+    })
+
+</script>
+
+</script>
+
+<script>
+    //下雨特效
+    function rainAnimation(time) {
+        setInterval(() => {
+            // 创建rain
+            var rain = document.createElement("div")
+            //初始化rain
+            rain.style.position = "fixed" //相对于视窗定位
+            rain.style.height = "45px"
+            rain.style.width = "2px"
+            rain.style.backgroundColor = "#fff"
+            rain.style.filter = "blur(1px)"
+            rain.style.top = "0"
+            rain.style.left = Math.random() * 1920 + "px" //水平随机刷新
+            rain.style.opacity = parseInt(Math.random() * 10) / 10 + "" // 随机透明度
+            // 向body里添加子节点rain
+            document.body.appendChild(rain)
+            // rain动画
+            var timer = setInterval(() => {
+                var height = parseInt(rain.style.top);
+                var i = 1;
+                i++;
+                rain.style.top = height + 5 * Math.pow(i, 2) + "px";
+
+                if (rain.style.top >= "900px") {
+                    clearInterval(timer);
+                    rain.parentNode.removeChild(rain)
+                }
+            }, time)
+        })
+    }
+    rainAnimation(12)
+</script>
+
+</html>

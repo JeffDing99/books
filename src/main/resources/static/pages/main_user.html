@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图书管理</title>
+    <meta name="description" content="图书管理">
+    <meta name="keywords" content="图书管理">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <style type="text/css">
+    .el-main{
+        position: absolute;
+        top: 70px;
+        bottom: 0px;
+        left: 200px;
+        right: 10px;
+        padding: 0;
+    }
+    </style>
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+    <div id="app">
+        <el-container>
+            <el-header  class="main-header" style="height:70px;">
+                <nav class="navbar navbar-static-top" :class=''>
+                    <!-- Logo -->
+                    <a href="https://www.cnblogs.com/dss-99/" class="logo" style="text-align:left">
+                        <span style="font-family:Microsoft YaHei;font-size:25px">图书管理系统<!--<img src="../img/sdau.png"  style="text-align: left;height: 40px">--></span>
+                    </a>
+                    <div class="right-menu">
+                       <!-- <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>-->
+                        <el-dropdown class="avatar-container right-menu-item" trigger="click">
+                            <div class="avatar-wrapper">
+                                <img src="../img/touxiang.jpg" class="user-avatar">
+                                {{name}}
+                            </div>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item divided>
+                                    <el-button  round type="danger" size="mini" @click="updatepassword()">修改密码</el-button>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided>
+                                    <el-button round type="danger" size="mini" @click="logout()" >退出登录</el-button>
+                                    </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </div>
+                </nav>
+            </el-header>
+            <el-container>
+                <el-aside width="width: 200px; min-height: calc(100vh - 50px)">
+                    <el-menu>
+                        <el-submenu v-for="menu in menuList" :index="menu.path">
+                            <template slot="title">
+                                <i class="fa" :class="menu.icon"></i>
+                                {{menu.title}}
+                            </template>
+                            <template v-for="child in menu.children">
+                                <el-menu-item :index="child.path">
+                                    <a :href="child.linkUrl" target="right">{{child.title}}</a>
+                                </el-menu-item>
+                            </template>
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+                <el-container>
+                    <iframe name="right" class="el-main" src="Echars.html" width="100%"  height="90%" frameborder="0"></iframe>
+                </el-container>
+            </el-container>
+        </el-container>
+
+        <!-- 修改密码项 -->
+        <div class="add-form">
+            <el-dialog title="修改密码项" :visible.sync="dialogFormVisible4Edit">
+                <el-form ref="dataEditForm" :model="formData" :rules="rules" label-position="right" label-width="100px">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="原密码" prop="oldpwd">
+                                <el-input type="password"  v-model="formData.oldpwd"/>
+                            </el-form-item>
+                        </el-col>
+
+                    </el-row>
+
+
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="新密码" prop="newpwd">
+                                <el-input  prefix-icon="el-icon-edit" type="password" v-model="formData.newpwd"/>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="确认密码" prop="confirm">
+                                <el-input prefix-icon="el-icon-edit" type="password" v-model="formData.confirm"/>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible4Edit = false">取消</el-button>
+                    <el-button type="primary" @click="handleEdit()">确定</el-button>
+                </div>
+            </el-dialog>
+        </div>
+    </div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data:{
+            name:"dss",
+            menuList:[
+
+               /* {
+                    "path": "2",
+                    "title": "读者管理",
+                    "icon":"fa-user-md",
+                     "children": [
+                        {
+                            "path": "/2-1",
+                            "title": "读者档案",
+                            "linkUrl":"userList.html",
+                            "children":[]
+                        },
+                    {
+                       "path": "/2-2",
+                       "title": "读者测试",
+                        "linkUrl":"userList2.html",
+                       "children":[]
+                   },/!*
+                   {
+                       "path": "/2-3",
+                       "title": "图书列表",
+                       "linkUrl":"bookList_user.html",
+                       "children":[]
+                   },*!/
+               ]
+                },*/
+                {
+                    "path": "3",
+                    "title": "图书管理",
+                    "icon":"fa-book",
+                    "children": [
+                        {
+                            "path": "/3-1",
+                            "title": "图书列表",
+                            "linkUrl":"bookList.html",
+                            "children":[]
+                        },
+                      /* {
+                            "path": "/3-2",
+                            "title": "图书测试列表用户",
+                            "linkUrl":"bookList_user.html",
+                            "children":[]
+                        },
+                        {
+                            "path": "/3-3",
+                            "title": "图书测试列表管理员",
+                            "linkUrl":"bookList_admin.html",
+                            "children":[]
+                        },*/
+                       {
+                            "path": "/3-4",
+                            "title": "分类信息",
+                            "linkUrl":"classinfo.html",
+                            "children":[]
+                        },{
+                            "path": "/3-5",
+                            "title": "借阅数量",
+                            "linkUrl":"Echars.html",
+                            "children":[]
+                        },
+                    ]
+                },
+                {
+                    "path": "4",
+                    "title": "借还管理",
+                    "icon":"fa-pencil",
+                    "children":[
+                        /*{
+                            "path": "/4-1",
+                            "title": "借还记录管理员",
+                            "linkUrl":"lend_admin.html",
+                            "children":[]
+                        },*/
+                        {
+                            "path": "/4-2",
+                            "title": "借还记录",
+                            "linkUrl":"lend_user.html",
+                            "children":[]
+                        },
+                    ]
+                },
+                {
+                    "path": "5",     //菜单项所对应的路由路径
+                    "title": "收藏管理",     //菜单项名称
+                    "icon":"fa-cog",
+                    "children":[//是否有子菜单，若没有，则为[]
+                       /* {
+                            "path": "/5-1",
+                            "title": "收藏管理管理员",
+                            "linkUrl":"collect_admin.html",
+                            "children":[]
+                        },*/
+                        {
+                            "path": "/5-2",
+                            "title": "收藏管理",
+                            "linkUrl":"collect_user.html",
+                            "children":[]
+                        },
+                    ]
+                },
+                {
+                    "path": "6",
+                    "title": "其他",
+                    "icon":"fa-dashboard",
+                    "children": [
+                        {
+                            "path": "/1-1",
+                            "title": "地图",
+                            "linkUrl":"map.html",
+                            "children":[]
+                        },{
+                            "path": "/1-2",
+                            "title": "借阅数量",
+                            "linkUrl":"Echars.html",
+                            "children":[]
+                        },{
+                            "path": "/1-3",
+                            "title": "读者分布",
+                            "linkUrl":"echarts_user.html",
+                            "children":[]
+                        },
+                    ]
+                },
+            ],
+            dialogFormVisible4Edit:false,//编辑表单是否可见
+            rules: {
+                oldpwd: [
+                    {required: true, message: '旧密码不可为空', trigger: 'blur'},
+                ],
+                newpwd: [
+                    {required: true, message: '新密码不可为空', trigger: 'blur'},
+                ],
+                confirm: [
+                    {required: true, message: '请确认密码', trigger: 'blur'},
+                ]
+            },
+            formData: {},//表单数据
+        },
+        create(){
+            //var item = window.localStorage.getItem("username");
+            //this.changename(item);
+        },
+        mounted(){
+            var item = window.localStorage.getItem("username");
+            this.formData.username=item;
+            this.changename(item);
+        },
+        methods:{
+
+            changename(item) {
+                //console.log(item);
+                this.name=item;
+            },
+            logout(){
+                //this.index();
+                this.$confirm("确定退出吗？","提示",{//确认框
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()=>{
+                    //用户点击确定按钮，发送ajax请求
+                    axios.get("/user/logout").then(res => {
+                        if(res.data.flag){
+                            //执行成功
+                            //弹出成功提示信息
+                            this.$message({
+                                type:'success',
+                                message:res.data.message,
+
+                            });
+
+
+                        }else{
+                            //执行失败
+                            //this.$alert("借阅失败,此书目前已没有数量了!!");
+                            this.$message.error(res.data.message);
+
+                        }
+
+                    });
+                }).catch(()=>{
+                    this.$message({
+                        type:'info',
+                        message:'操作已取消'
+                    });
+                }).finally(()=>{
+                    //alert(1111);
+                    this.index();
+                });
+            },
+
+            // 重置表单
+            resetForm() {
+                this.formData = {};//重置数据
+                //this.formData.oldpwd=null;
+                //this.formData.newpwd=null;
+                //this.formData.confirm=null;
+                //alert( this.formData.username);
+            },
+            updatepassword(){
+                //弹出编辑窗口
+                this.dialogFormVisible4Edit = true;
+                this.resetForm();
+                var item = window.localStorage.getItem("username");
+                this.formData.username=item;
+                //回显数据，发送ajax请求根据ID查询当前数据
+               /* axios.get("/book/findBookById?bookid=" + row.bookid).then((res) => {
+                    if(res.data.flag){
+                        //进行回显，基于VUE的数据绑定实现
+                        this.formData = res.data.data;
+                    }else{
+                        //查询失败，弹出提示
+                        this.$message.error(res.data.message);
+                    }
+                    this.dialogFormVisible4Edit = false;
+                });*/
+
+            },
+            handleEdit(){
+
+                if (this.formData.newpwd !== this.formData.confirm) {
+                    this.$message({
+                        type: "error",
+                        message: '2次密码输入不一致！'
+                    })
+                    return
+                }
+
+                this.$refs['dataEditForm'].validate((valid) => {
+                    if (valid) {
+                        axios.post("/user/updatepwd", this.formData).then(res => {
+                            if (res.data.flag) {
+                                //弹出提示信息
+                                this.$message({
+                                    type: 'success',
+                                    message: res.data.message
+
+                                });
+                            }
+                            else
+                            {
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.message
+
+                                });
+                            }
+                            this.dialogFormVisible4Edit = false;
+                        })
+                    }else{
+                        //校验不通过
+                        this.$message.error("数据校验失败，请检查你的输入信息是否正确！");
+                        return false;
+                    }
+
+                })
+            },
+            index(){
+
+                window.localStorage.removeItem("username");
+                window.location.href="../index.html";
+            }
+        },
+    });
+    $(function() {
+            var wd = 200;
+            $(".el-main").css('width', $('body').width() - wd + 'px');
+    });
+</script>
+</html>

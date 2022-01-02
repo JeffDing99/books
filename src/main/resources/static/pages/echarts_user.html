@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>图书管理</title>
+    <meta name="description" content="图书管理">
+    <meta name="keywords" content="图书管理">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/echarts/echarts.js"></script>
+    <link rel="stylesheet" href="../plugins/elementui/index.css">
+    <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>统计分析<small>分布占比</small></h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+            <el-breadcrumb-item>地区占比</el-breadcrumb-item>
+        </el-breadcrumb>
+    </div>
+    <div class="app-container">
+        <div class="box">
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="chart1" style="height:600px;"></div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('chart1'));
+
+    // 使用刚指定的配置项和数据显示图表。
+    //myChart.setOption(option);
+
+    axios.get("/test/getSetmealReport").then((res)=>{
+        myChart1.setOption({
+            title : {
+                text: '地区分布占比',
+                subtext: '',
+                x:'center'
+            },
+            tooltip : {//提示框组件
+                trigger: 'item',//触发类型，在饼形图中为item
+                formatter: "{a} <br/>{b} : {c} ({d}%)"//提示内容格式
+            },
+            legend: {//图例
+                orient: 'vertical',
+                left: 'left',
+                data: res.data.data.setmealNames
+            },
+            series : [//数据系列
+                {
+                    name: '地区分布占比',
+                    type: 'pie',//饼形图
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:res.data.data.setmealCount,
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        });
+    });
+</script>
+</html>

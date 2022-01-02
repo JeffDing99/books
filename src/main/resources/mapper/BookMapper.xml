@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ding.books.mapper.BookMapper">
+
+  <!--  <insert id="addBook" parameterType="com.ding.books.model.entity.Book">
+        insert into books (bookName, bookCounts, detail)
+        values (#{bookName},#{bookCounts},#{detail});
+    </insert>-->
+
+    <delete id="deleteById" parameterType="com.ding.books.model.entity.Book">
+
+        delete from book where bookid = #{bookid}
+    </delete>
+
+   <!-- <update id="edit" parameterType="com.ding.books.model.entity.Book">
+        update books set bookName = #{bookName},bookCounts=#{bookCounts},detail=#{detail}
+        where bookID = #{bookID};
+    </update>
+-->
+
+
+    <select id="selectByCondition" resultType="com.ding.books.model.entity.Book" parameterType="string">
+        select * from book
+        <where> 1=1
+        <if test="bookname != null and bookname.length > 0">
+            and bookname like concat('%',#{bookname},'%')
+        </if>
+       <!-- <if test="bookID ! ">
+            and bookID like concat('%',#{bookID},'%')
+        </if>-->
+     </where>
+    </select>
+
+
+   <!-- <select id="findById" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
+        select * from books where bookID = #{bookID};
+    </select>
+
+    <select id="findAll" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
+
+        select * from books;
+    </select>
+
+    <select id="findCountByBook" resultType="java.lang.Long">
+
+    </select>-->
+
+</mapper>

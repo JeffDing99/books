@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ding.books.mapper.LendMapper">
+
+
+    <select id="selectByCondition" resultType="com.ding.books.model.dto.LendBook">
+        select lb.lendid ,b.bookid,b.bookname ,u.username,lb.number,lb.lenddate,lb.backdate from book b, lendrecord lb, user u
+        <where> 1=1 and b.bookid= lb.bookid and lb.userid=u.id
+            <if test="bookname != null and bookname.length > 0">
+                and bookname like concat('%',#{bookname},'%')
+            </if>
+        </where> order by lb.lenddate asc
+
+    </select>
+    <select id="selectByConditionUser" resultType="com.ding.books.model.dto.LendBook">
+
+        select lb.lendid ,b.bookid,b.bookname ,u.username,lb.number,lb.lenddate,lb.backdate from book b, (SELECT * FROM lendrecord WHERE userid =#{id} ) AS lb, user u
+        <where>  lb.bookid = b.bookid AND u.id =lb.userid
+            <if test="bookname != null and bookname.length > 0">
+                and bookname like concat('%',#{bookname},'%')
+            </if>
+        </where> order by lb.lenddate asc
+    </select>
+    <select id="findLendByBookid" resultType="com.ding.books.model.entity.LendRecord">
+        select * from lendrecord where  bookid =#{bookid}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+  <title>图表</title>
+  <!-- 引入样式 -->
+  <script src="../js/jquery.min.js" ></script>
+  <script src="../plugins/echarts/echarts.js"></script>
+  <link rel="stylesheet" href="../plugins/elementui/index.css">
+  <link rel="stylesheet" href="../plugins/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="hold-transition">
+<div id="app">
+<div class="content-header">
+  <h1>统计分析<small>借阅排行</small></h1>
+  <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+    <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+    <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+    <el-breadcrumb-item>借阅排行</el-breadcrumb-item>
+  </el-breadcrumb>
+</div>
+  <div class="app-container">
+    <div class="box">
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 1000px;height:450px;"></div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    //数据加载完之前先显示一段简单的loading动画
+    myChart.showLoading();
+    var names=[];    //横坐标数组（实际用来盛放X轴坐标值）
+    var values=[];    //纵坐标数组（实际用来盛放Y坐标值）
+    $.ajax({
+      type : "post",
+      async : true,            //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+      url : "/test/EcharsShow",    //请求发送到dataActiont处
+      data : {},
+      dataType : "json",        //返回数据形式为json
+      success : function(result) {
+        //请求成功时执行该函数内容，result即为服务器返回的json对象
+        if (result) {
+          for(var i=0;i<result.length;i++){
+            names.push(result[i].name);
+            values.push(result[i].num);
+          }
+          myChart.hideLoading();    //隐藏加载动画
+          myChart.setOption({        //加载数据图表
+            title: {
+              text: '图书借阅排行'
+            },
+            tooltip: {},
+            legend: {
+              data:['借阅數量']
+            },
+            xAxis: {
+              type: 'category',
+              data: names,
+              axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+              }
+            },
+            yAxis: {
+              type: 'value'
+            },
+            series: [{
+              // 根据名字对应到相应的系列
+              name: '借阅數量',//薪资 series not exists. Legend data should be same with series name or data name.
+              type: 'bar',
+              data: values
+            }]
+          });
+        }
+      },
+      error : function(errorMsg) {
+        //请求失败时执行该函数
+        alert("图表请求数据失败!");
+        myChart.hideLoading();
+      }
+    });//end ajax
+  });
+
+</script>
+
+</body>
+</html>
