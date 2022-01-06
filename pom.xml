@@ -126,6 +126,29 @@
             <optional>true</optional>
         </dependency>
 
+        <!--qq登录相关内容-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>4.4.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.58</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.gplatform</groupId>
+            <artifactId>Sdk4J</artifactId>
+            <version>2.0</version>
+        </dependency>
 
     </dependencies>
 

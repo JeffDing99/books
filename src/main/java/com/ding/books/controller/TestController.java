@@ -1,7 +1,10 @@
 package com.ding.books.controller;
 
+import com.ding.books.model.entity.Book;
 import com.ding.books.model.entity.Echars;
+import com.ding.books.service.BookService;
 import com.ding.books.utils.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,18 +23,25 @@ import java.util.Map;
 @RestController
 @RequestMapping("/test")
 public class TestController {
+    @Autowired
+   private BookService bookService;
 
     @RequestMapping(value = "/EcharsShow")
     public List<Echars> findById(Model model) {
+
         List<Echars> list = new ArrayList<Echars>();
-        list.add(new Echars("人类简史",50));
+        List<Book> allLimit = bookService.findAllLimit();
+        for (Book book : allLimit) {
+            list.add(new Echars(book.getBookname(),book.getNumber()));
+        }
+       /* list.add(new Echars("人类简史",50));
         list.add(new Echars("追寻生命的意义",26));
         list.add(new Echars("明朝那些事儿",35));
         list.add(new Echars("造彩虹的人",10));
         list.add(new Echars("秘密花园",72));
         list.add(new Echars("方向",12));
         list.add(new Echars("控方证人",12));
-        list.add(new Echars("三生三世 十里桃花",12));
+        list.add(new Echars("三生三世 十里桃花",12));*/
 
         return list;
     }

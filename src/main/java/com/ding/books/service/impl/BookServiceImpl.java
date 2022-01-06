@@ -82,6 +82,12 @@ public class BookServiceImpl implements BookService {
         return bookMapper.selectList(null);
     }
 
+    @Override
+    public List<Book> findAllLimit() {
+        List<Book> allLimit = bookMapper.findAllLimit();
+        return allLimit;
+    }
+
 
     @Override
     public Book findBookById(Integer bookid) {

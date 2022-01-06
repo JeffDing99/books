@@ -32,4 +32,12 @@ public class User implements Serializable {
         this.phone = phone;
         this.city = city;
     }*/
+
+    public User(String openId, Object nickname, Object gender, Object city, Object figureurl_1) {
+        this.openid=openId;
+        this.username = (String) nickname;
+        this.sex = (String) gender;
+        this.city = (String) city;
+        this.head_img= (String) figureurl_1;
+    }
 }

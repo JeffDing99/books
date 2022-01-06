@@ -15,11 +15,11 @@
 <body class="hold-transition">
 <div id="app">
 <div class="content-header">
-  <h1>统计分析<small>借阅排行</small></h1>
+  <h1>统计分析<small>数量排行</small></h1>
   <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
     <el-breadcrumb-item>统计分析</el-breadcrumb-item>
-    <el-breadcrumb-item>借阅排行</el-breadcrumb-item>
+    <el-breadcrumb-item>数量排行</el-breadcrumb-item>
   </el-breadcrumb>
 </div>
   <div class="app-container">
@@ -55,11 +55,11 @@
           myChart.hideLoading();    //隐藏加载动画
           myChart.setOption({        //加载数据图表
             title: {
-              text: '图书借阅排行'
+              text: '图书数量排行'
             },
             tooltip: {},
             legend: {
-              data:['借阅數量']
+              data:['图书數量']
             },
             xAxis: {
               type: 'category',
@@ -74,7 +74,7 @@
             },
             series: [{
               // 根据名字对应到相应的系列
-              name: '借阅數量',//薪资 series not exists. Legend data should be same with series name or data name.
+              name: '图书數量',//薪资 series not exists. Legend data should be same with series name or data name.
               type: 'bar',
               data: values
             }]

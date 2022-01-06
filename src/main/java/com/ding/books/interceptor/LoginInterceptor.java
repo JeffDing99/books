@@ -1,7 +1,6 @@
 package com.ding.books.interceptor;
 
 import com.ding.books.utils.JWTUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,12 +34,12 @@ public class LoginInterceptor implements HandlerInterceptor {
             }
         }
 
-        //sendJsonMessage(response,new Result(false,"请先登录!!!"));
-        //response.setContentType("text/html; charset=utf-8");
+       // sendJsonMessage(response,new Result(false,"请先登录!!!"));
+        response.setContentType("text/html; charset=utf-8");
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = response.getWriter();
         pw.print("<script>alert('请先登录!!!');window.location.href='/index.html';</script>");
-        ///response.sendRedirect("index.html");
+        response.sendRedirect("index.html");
         return false;
     }
 
@@ -52,7 +51,7 @@ public class LoginInterceptor implements HandlerInterceptor {
      * @param response
      * @param obj
      */
-    public static void sendJsonMessage(HttpServletResponse response, Object obj){
+   /* public static void sendJsonMessage(HttpServletResponse response, Object obj){
 
         try{
             ObjectMapper objectMapper = new ObjectMapper();
@@ -66,7 +65,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
 
 
-    }
+    }*/
 
 
 

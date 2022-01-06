@@ -115,4 +115,18 @@ public class UserServiceImpl implements UserService {
     public User queryAllByUsername(String username) {
         return userMapper.queryAllByUsername(username);
     }
+
+    @Override
+    public int addQQUser(User user) {
+
+
+       // addUserRequest.setPassword(CommonUtils.MD5(addUserRequest.getPassword()));
+       // BeanUtils.copyProperties(addUserRequest,user);
+        return userMapper.insert(user);
+    }
+
+    @Override
+    public User findByOpenid(String openId) {
+        return userMapper.findByOpenid(openId);
+    }
 }

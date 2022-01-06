@@ -36,7 +36,7 @@
                        <!-- <span class="help"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>帮助</span>-->
                         <el-dropdown class="avatar-container right-menu-item" trigger="click">
                             <div class="avatar-wrapper">
-                                <img src="../img/touxiang.jpg" class="user-avatar">
+                                <img :src="head_img" class="user-avatar">
                                 {{name}}
                             </div>
                             <el-dropdown-menu slot="dropdown">
@@ -121,6 +121,8 @@
         el: '#app',
         data:{
             name:"dss",
+            head_img:"../img/touxiang.jpg",
+            //head_img:"http://thirdqq.qlogo.cn/g?b=oidb&k=L9iba1sibITr8vlnfjKAfzxQ&s=40&t=1566917162",
             menuList:[
 
                /* {
@@ -178,7 +180,7 @@
                             "children":[]
                         },{
                             "path": "/3-5",
-                            "title": "借阅数量",
+                            "title": "图书数量",
                             "linkUrl":"Echars.html",
                             "children":[]
                         },
@@ -234,7 +236,7 @@
                             "children":[]
                         },{
                             "path": "/1-2",
-                            "title": "借阅数量",
+                            "title": "图书数量",
                             "linkUrl":"Echars.html",
                             "children":[]
                         },{
@@ -266,11 +268,48 @@
         },
         mounted(){
             var item = window.localStorage.getItem("username");
-            this.formData.username=item;
-            this.changename(item);
+            //alert(1111);
+            //alert(item);
+            if (!item){
+                //alert(2222);
+                var s = this.GetQueryString("username");
+                localStorage.setItem("username", s);
+                var s2 = this.GetQueryString("head_img");
+               // alert(s);
+                this.formData.username=s;
+
+                this.changename(s);
+                //alert(s2);
+                this.changehead_img(s2);
+
+            }
+            else {
+
+                this.formData.username=item;
+                this.changename(item);
+            }
+           //alert("zhong")
         },
         methods:{
 
+            GetQueryString(key)
+            {
+                /*var reg = new RegExp("(^|&)"+ decodeURI(decodeURI(name)) +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if(r!=null)return  unescape(r[2]); return null;*/
+                // 获取参数
+                var url = window.location.search;
+                // 正则筛选地址栏
+                var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+                // 匹配目标参数
+                var result = url.substr(1).match(reg);
+                //返回参数值
+                return result ? decodeURIComponent(result[2]) : null;
+            },
+            changehead_img(item) {
+                //console.log(item);
+                this.head_img=item;
+            },
             changename(item) {
                 //console.log(item);
                 this.name=item;

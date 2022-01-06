@@ -30,19 +30,23 @@
         </if>-->
      </where>
     </select>
+    <select id="findAllLimit" resultType="com.ding.books.model.entity.Book">
 
-
-   <!-- <select id="findById" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
-        select * from books where bookID = #{bookID};
+          select * from book  order by number desc limit 10;
     </select>
 
-    <select id="findAll" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
 
-        select * from books;
-    </select>
+    <!-- <select id="findById" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
+         select * from books where bookID = #{bookID};
+     </select>
 
-    <select id="findCountByBook" resultType="java.lang.Long">
+     <select id="findAll" parameterType="com.ding.books.model.entity.Book" resultType="com.ding.books.model.entity.Book">
 
-    </select>-->
+         select * from books;
+     </select>
+
+     <select id="findCountByBook" resultType="java.lang.Long">
+
+     </select>-->
 
 </mapper>

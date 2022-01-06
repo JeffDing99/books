@@ -38,5 +38,8 @@ public interface BookService {
 
  void edit(EditBook editBook);
 
-    List<Book> findAll();
+ List<Book> findAll();
+
+ List<Book> findAllLimit();
+
 }

@@ -227,6 +227,9 @@ data:{
 //钩子函数，VUE对象初始化完成后自动执行
 created() {
     var item = window.localStorage.getItem("username");
+   /* if (!item){
+        item = this.GetQueryString("username");
+    }*/
     this.username=item;
     this.findPage();//VUE对象初始化完成后调用分页查询方法，完成分页查询
 },

@@ -34,4 +34,8 @@ public interface UserService {
     Integer findByUsername(String username);
 
     User queryAllByUsername(String username);
+
+    int addQQUser(User user);
+
+    User findByOpenid(String openId);
 }

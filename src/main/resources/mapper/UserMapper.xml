@@ -23,4 +23,7 @@
     <select id="queryAllByUsername" resultType="com.ding.books.model.entity.User">
         select  * from user where username =#{username}
     </select>
+    <select id="findByOpenid" resultType="com.ding.books.model.entity.User">
+        select * from user where openid = #{openid}
+    </select>
 </mapper>
