@@ -1,6 +1,6 @@
 # 图书管理系统
 
-> 班级：计算机6班 组号：第10组 
+
 
 ## 1. 开发目的<img src = 'https://s3.bmp.ovh/imgs/2021/12/9be773a77c16e439.jpg' width=13% align=right hspace="5" vspace="5" />
 
